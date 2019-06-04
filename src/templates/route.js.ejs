@@ -1,0 +1,5 @@
+const <%= props.name %> = require('../controllers/<%= props.name %>Controller')
+
+module.exports = app => {
+  app.<%= props.routeMethod %>('/<%= props.name %>', <%= props.name %>.func())
+}
