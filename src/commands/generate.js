@@ -10,11 +10,12 @@ module.exports = {
       template: { generate },
       print,
       filesystem,
-      createFile
+      createFiles
     } = toolbox
+    // console.log(toolbox)
     const type = parameters.first
     const name = parameters.second
     const routeMethod = parameters.argv[5] ? parameters.argv[5].slice(2) : 'post'
-    await createFile(type, name, routeMethod)
+    await createFiles(type, name, routeMethod)
   }
 }

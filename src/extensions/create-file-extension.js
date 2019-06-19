@@ -8,6 +8,9 @@ module.exports = (toolbox) => {
 
   async function createResolver(name, path = './') {
     const fileName = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
+
+    await toolbox.insertIntoIndexResolver(`${path}resolvers/index.js`, fileName)
+
     await generate({
       template: 'resolver.js.ejs',
       target: `${path}resolvers/${fileName}.js`,
@@ -55,20 +58,20 @@ module.exports = (toolbox) => {
 
   async function graphqlApi (type, name) {
     if (type === 'resolver') {
-      createResolver(name)
+      await createResolver(name, './src/')
     } else if (type === 'schema') {
-      createSchema(name)
+      await createSchema(name, './src/')
     } else {
       print.error(`Argument ${type} not found for this project`)
     }
   }
 
-  async function createFile(type, name, routeMethod) {
+  toolbox.createFiles = async (type, name, routeMethod) => {
     const package = filesystem.read('package.json', 'json')
-    if (package.dependencies.express) {
-      expressApi(type, name, routeMethod)
-    } else if (package.dependencies['express-graphql']) {
-      graphqlApi(type, name)
+    if (package.dependencies['express-graphql']) {
+      await graphqlApi(type, name)
+    } else if (package.dependencies.express) {
+      await expressApi(type, name, routeMethod)
     } else {
       print.error('Project not supported for this command')
     }
