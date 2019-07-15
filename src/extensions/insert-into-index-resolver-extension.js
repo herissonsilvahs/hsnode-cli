@@ -31,7 +31,5 @@ module.exports = (toolbox) => {
     fileString = fileArray.join('\n')
 
     filesystem.write(file, fileString)
-
-    // console.log(fileArray)
   }
 }

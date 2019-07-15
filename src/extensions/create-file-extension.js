@@ -20,10 +20,13 @@ module.exports = (toolbox) => {
 
   async function createSchema(name, path) {
     const fileName = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
-    await generate({
-      template: 'schema.js.ejs',
-      target: `${path}schemas/${fileName}.js`
-    })
+
+    await toolbox.insertIntoIndexSchema(`${path}schema/index.js`, fileName)
+
+    // await generate({
+    //   template: 'schema.js.ejs',
+    //   target: `${path}schema/${fileName}.js`
+    // })
   }
 
   async function expressApi (type, name, routeMethod) {
