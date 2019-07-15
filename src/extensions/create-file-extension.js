@@ -3,40 +3,42 @@ module.exports = (toolbox) => {
   const {
     print,
     template: { generate },
-    filesystem
+    filesystem,
+    strings
   } = toolbox
 
   async function createResolver(name, path = './') {
-    const fileName = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
-
+    const fileName = strings.startCase(name)
     await toolbox.insertIntoIndexResolver(`${path}resolvers/index.js`, fileName)
-
     await generate({
       template: 'resolver.js.ejs',
       target: `${path}resolvers/${fileName}.js`,
       props: { fileName }
     })
+    print.success(`Generated resolver file at ${path}resolvers/${fileName}.js`)
+    print.success("Updated file src/resolver/index.js")
   }
 
   async function createSchema(name, path) {
-    const fileName = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
-
+    const fileName = strings.startCase(name)
     await toolbox.insertIntoIndexSchema(`${path}schema/index.js`, fileName)
-
-    // await generate({
-    //   template: 'schema.js.ejs',
-    //   target: `${path}schema/${fileName}.js`
-    // })
+    await generate({
+      template: 'schema.js.ejs',
+      target: `${path}schema/${fileName}.js`
+    })
+    print.success(`Generated schema file at ${path}schema/${fileName}.js`)
+    print.success("Updated file src/schema/index.js")
   }
 
   async function expressApi (type, name, routeMethod) {
+    const startCaseName = strings.startCase(name)
     if (type === 'model') {
       await generate({
         template: 'model.js.ejs',
-        target: `models/${name.charAt(0).toUpperCase()}${name.slice(1)}.js`,
+        target: `models/${startCaseName}.js`,
         props: { name }
       })
-      print.info(`Generated model file at models/${name.charAt(0).toUpperCase()}${name.slice(1)}.js`)
+      print.info(`Generated model file at models/${startCaseName}.js`)
     } else if (type === 'router') { 
       await generate({
         template: 'route.js.ejs',

@@ -3,7 +3,8 @@ module.exports = (toolbox) => {
   const {
     print,
     template: { generate },
-    filesystem
+    filesystem,
+    strings
   } = toolbox
 
   toolbox.insertIntoIndexSchema = async (file, fileName) => {

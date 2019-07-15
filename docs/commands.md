@@ -29,7 +29,7 @@ Generated router file at routes/user.js
 Generated controller file at controllers/userController.js
 ```
 
-### Generate schema and resolvers
+### Generate schema
 
 ```shell
 $ hsnode-cli generate schema user
@@ -42,6 +42,15 @@ Generated schema file at src/schema/User.js
 Updated file src/schema/index.js
 ```
 
+### Generate resolver
+
 ```shell
 $ hsnode-cli generate resolver user
+```
+
+Output
+
+```shell
+Generated resolver file at src/resolver/User.js
+Updated file src/resolver/index.js
 ```
